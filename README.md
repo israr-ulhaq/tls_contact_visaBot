@@ -1,5 +1,5 @@
-tls_contact_visaBot
-Overview
+**tls_contact_visaBot
+**
 tls_contact_visaBot is a Telegram bot designed to assist users with the TLS contact visa application process. The bot automates interactions with the TLS contact website using a web driver, providing a seamless user experience.
 
 Features
@@ -24,18 +24,12 @@ cd tls_contact_visaBot
 pip install -r requirements.txt
 Configure Bot Token: Add your Telegram bot token to the code. You can do this by modifying the config.py file (or the relevant section of the main script) with your bot token:
 
-python
-Copy code
+
 TELEGRAM_BOT_TOKEN = 'your-telegram-bot-token'
 Set Up WebDriver: Ensure the Chrome WebDriver executable is located in a directory that is part of your system's PATH. Alternatively, specify the path to the WebDriver in the code:
 
-python
-Copy code
+
 CHROME_DRIVER_PATH = '/path/to/chromedriver'
 Usage
 To start the bot, run the main script:
-
-bash
-Copy code
-python main.py
 Once the bot is running, you can interact with it through Telegram. Use the bot's command features to automate your visa application interactions
