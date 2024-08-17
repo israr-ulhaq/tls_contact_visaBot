@@ -45,11 +45,11 @@ async def search_appointments(update: Update, context: CallbackContext) -> None:
             chrome_options.add_argument('--headless=new')
             chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
-            webdriver_service = Service('C:/Users/Israr Awan/Visa appointments/chromedriver.exe')  # Ensure this path is correct
+            webdriver_service = Service('webdriver')  # Ensure this path is correct
             driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
             # Open the website
-            driver.get('https://visas-de.tlscontact.com/visa/gb/gbLON2de/home')
+            driver.get('https://visas-de.tlscontact.com/visa/gb/gbLON2de/home') #You can change the url to required city
             human_like_delay()
 
             # Accept cookies
