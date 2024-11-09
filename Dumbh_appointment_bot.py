@@ -18,8 +18,8 @@ from telegram.ext import (Application, CallbackContext, CommandHandler,
 
 from selenium import webdriver
 
-# Load sensitive data from environment variables or configuration files
-API_TOKEN = '' #telegramAPI
+# API token for the telegram channel
+API_TOKEN = ''
 def human_like_delay():
     time.sleep(random.uniform(1.5, 3.0))  # Random delay
 
@@ -37,6 +37,7 @@ async def echo(update: Update, context: CallbackContext) -> None:
 
 async def search_appointments(update: Update, context: CallbackContext) -> None:
     result = ''
+    driver= None
     while True:
         try:
             # Setup WebDriver
@@ -45,11 +46,11 @@ async def search_appointments(update: Update, context: CallbackContext) -> None:
             chrome_options.add_argument('--headless=new')
             chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
-            webdriver_service = Service('webdriver')  # Ensure this path is correct
+            webdriver_service = Service('/chromedriver.exe')  # Ensure this path is correct
             driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
             # Open the website
-            driver.get('https://visas-de.tlscontact.com/visa/gb/gbLON2de/home') #You can change the url to required city
+            driver.get('https://visas-de.tlscontact.com/visa/gb/gbEDI2de/home') #Use the link for whatever centre you want
             human_like_delay()
 
             # Accept cookies
@@ -119,7 +120,7 @@ async def search_appointments(update: Update, context: CallbackContext) -> None:
                 actions = ActionChains(driver)
                 actions.move_to_element(no_appointments_popup).click().perform()
                 # await update.message.reply_text("No appointments available. Retrying...")
-                time.sleep(900)  # Wait 10 minutes before trying again
+                time.sleep(300) # Wait 10 minutes before trying again
                 continue  # Restart the loop and reinitialize WebDriver
             except:
                 print("Checking for available appointments...")
@@ -135,7 +136,7 @@ async def search_appointments(update: Update, context: CallbackContext) -> None:
                     available_appointment.click()
                     return True
             except:
-                result = 'No appointments available yet.'
+                result = 'Please login to find manual appointment'
                 print(result)
                 await update.message.reply_text(result)
                 time.sleep(60)
@@ -145,7 +146,8 @@ async def search_appointments(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f"An error occurred: {e}")
 
         finally:
-            driver.quit()  # Ensure driver quits to reset the session and prevent errors when retrying
+            if driver is not None:
+                driver.quit()  # Ensure driver quits to reset the session and prevent errors when retrying
 
 def main():
     """Start the bot."""
